@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumanth College Hostel - Room & Bed Allocations</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- Anime Video & Sakura Canvas Background -->
+    <div class="bg-video-container">
+        <video class="bg-video" autoplay muted loop playsinline poster="assets/images/anime_hostel_campus.jpg">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-city-traffic-and-flying-cars-at-night-42861-large.mp4" type="video/mp4">
+        </video>
+        <div class="bg-overlay"></div>
+    </div>
+    <canvas id="sakuraCanvas"></canvas>
+
+    <header class="navbar">
+        <div class="nav-wrap">
+            <a href="index.html" class="brand">
+                <span class="brand-icon">🏫</span>
+                <span>Sumanth<span class="gradient-text">Hostel</span></span>
+                <span class="brand-badge">ERP</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="students.html" class="nav-link">Students</a>
+                <a href="rooms.html" class="nav-link">Rooms</a>
+                <a href="allocations.html" class="nav-link active">Allocations</a>
+                <a href="id_card.html" class="nav-link">Hostel Pass</a>
+                <a href="allocations.html" class="nav-btn">Allocate Room ➔</a>
+            </nav>
+        </div>
+    </header>
+
+    <div style="max-width: 1380px; margin: 2.5rem auto 1rem; padding: 0 1.75rem;">
+        <span class="hero-pill">🛏️ Room Assignment</span>
+        <h1 class="section-title">Student Room & Bed Allocations</h1>
+        <p class="section-desc" style="margin: 0.4rem 0 0 0; text-align: left;">
+            Assign verified rooms to registered students, manage semester payments, and issue residency slips.
+        </p>
+    </div>
+
+    <main class="section-wrap" style="margin-top: 1.5rem;">
+        <div class="app-layout">
+            
+            <!-- Left: Allocation Form -->
+            <div class="glass-box">
+                <h3 style="font-family: var(--font-heading); font-size: 1.35rem; margin-bottom: 1.25rem; color: #fff;">
+                    New Room Allocation
+                </h3>
+
+                <form id="allocationForm" class="form-stack" onsubmit="handleAllocationSubmit(event)">
+                    <div class="form-row-custom">
+                        <div class="form-group-custom">
+                            <label for="allocCode">Allocation Ref Code</label>
+                            <input type="text" id="allocCode" readonly style="font-family: var(--font-code); color: var(--primary-sakura); font-weight: bold;">
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="academicYear">Academic Year</label>
+                            <input type="text" id="academicYear" value="2026-2027" required>
+                        </div>
+                    </div>
+
+                    <!-- Select Student -->
+                    <div class="form-group-custom">
+                        <label for="studentSelect">Select Student</label>
+                        <select id="studentSelect" required>
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+
+                    <!-- Select Room -->
+                    <div class="form-group-custom">
+                        <label for="roomSelect">Select Hostel Room</label>
+                        <select id="roomSelect" onchange="handleRoomChange()" required>
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+
+                    <div class="form-row-custom">
+                        <div class="form-group-custom">
+                            <label for="bedNumber">Bed Number</label>
+                            <select id="bedNumber" required>
+                                <option value="Bed-1">Bed-1</option>
+                                <option value="Bed-2">Bed-2</option>
+                                <option value="Bed-3">Bed-3</option>
+                                <option value="Bed-4">Bed-4</option>
+                            </select>
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="feeAmount">Semester Fee (₹)</label>
+                            <input type="number" id="feeAmount" value="38000" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row-custom">
+                        <div class="form-group-custom">
+                            <label for="allocDate">Allocation Date</label>
+                            <input type="date" id="allocDate" required>
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="paymentStatus">Fee Payment Status</label>
+                            <select id="paymentStatus" required>
+                                <option value="Paid" selected>Paid in Full</option>
+                                <option value="Pending">Pending Payment</option>
+                                <option value="Partial">Partial Deposit</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group-custom">
+                        <label for="remarks">Remarks / Special Notes</label>
+                        <input type="text" id="remarks" placeholder="e.g. AC pass, scholar honor badge" value="Allocated with Wi-Fi & Laundry access">
+                    </div>
+
+                    <button type="submit" class="submit-btn-glow">
+                        <span>✨</span> Complete Allocation & Issue Pass
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right: Allocations List Table -->
+            <div class="glass-box">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+                    <div>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: #fff;">
+                            Active Allocations (<span id="allocCount">0</span>)
+                        </h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">
+                            Current student residential assignments
+                        </p>
+                    </div>
+                    <div>
+                        <select id="allocStatusFilter" onchange="renderAllocationsTable()" class="form-group-custom" style="padding: 0.5rem 0.9rem; border-radius: 8px;">
+                            <option value="all">All Records</option>
+                            <option value="Allocated">Currently Allocated</option>
+                            <option value="Vacated">Vacated / Checked-out</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-responsive-custom">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Student</th>
+                                <th>Room & Bed</th>
+                                <th>Wing</th>
+                                <th>Fee</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allocationsTableBody">
+                            <!-- Populated via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-brand">🏫 Sumanth College Hostel Management System</div>
+        <p class="footer-copy">© 2026 Sumanth College of Technology & Science.</p>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set today's date
+            document.getElementById('allocDate').value = new Date().toISOString().split('T')[0];
+            generateAllocCode();
+            populateDropdowns();
+            renderAllocationsTable();
+        });
+
+        function generateAllocCode() {
+            const num = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('allocCode').value = `ALC-${num}`;
+        }
+
+        function populateDropdowns() {
+            const students = getStudents();
+            const rooms = getRooms();
+
+            const studentSelect = document.getElementById('studentSelect');
+            studentSelect.innerHTML = '';
+            students.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.student_id;
+                opt.textContent = `${s.name} (${s.student_id} · ${s.dept})`;
+                studentSelect.appendChild(opt);
+            });
+
+            const roomSelect = document.getElementById('roomSelect');
+            roomSelect.innerHTML = '';
+            rooms.forEach(r => {
+                const opt = document.createElement('option');
+                opt.value = r.room_no;
+                opt.dataset.fee = r.fee;
+                opt.dataset.block = r.block;
+                opt.textContent = `Room ${r.room_no} (${r.block} · ${r.occupied}/${r.capacity} Beds · ₹${Number(r.fee).toLocaleString('en-IN')})`;
+                if (r.status === 'Full') {
+                    opt.disabled = true;
+                    opt.textContent += ' [FULL]';
+                }
+                roomSelect.appendChild(opt);
+            });
+
+            handleRoomChange();
+        }
+
+        function handleRoomChange() {
+            const roomSelect = document.getElementById('roomSelect');
+            if (roomSelect.selectedOptions && roomSelect.selectedOptions[0]) {
+                const fee = roomSelect.selectedOptions[0].dataset.fee;
+                if (fee) document.getElementById('feeAmount').value = fee;
+            }
+        }
+
+        function renderAllocationsTable() {
+            const filter = document.getElementById('allocStatusFilter').value;
+            const tbody = document.getElementById('allocationsTableBody');
+            const allocations = getAllocations();
+
+            document.getElementById('allocCount').textContent = allocations.length;
+            tbody.innerHTML = '';
+
+            const filtered = allocations.filter(a => filter === 'all' || a.status === filter);
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 2.5rem; color: var(--text-faint);">No allocation records found.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(a => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-family: var(--font-code); font-weight: 800; color: var(--primary-sakura);">${a.code}</td>
+                    <td>
+                        <strong>${a.student_name}</strong><br>
+                        <small style="color: var(--primary-cyan);">${a.student_id}</small>
+                    </td>
+                    <td><span style="font-weight: 800; color: #fff;">${a.room_no}</span> · <small style="color: var(--text-muted);">${a.bed}</small></td>
+                    <td><small style="color: #cbd5e1;">${a.block}</small></td>
+                    <td>
+                        <strong style="color: #34d399;">₹${Number(a.fee).toLocaleString('en-IN')}</strong><br>
+                        <span class="badge-status badge-${a.payment_status.toLowerCase()}">${a.payment_status}</span>
+                    </td>
+                    <td><span class="badge-status badge-${a.status.toLowerCase()}">${a.status}</span></td>
+                    <td>
+                        <div class="action-group">
+                            <a href="id_card.html?id=${encodeURIComponent(a.student_id)}" class="icon-btn" title="View Digital Pass">🪪</a>
+                            ${a.status === 'Allocated' ? `<button onclick="vacateAllocation('${a.code}', '${a.room_no}')" class="icon-btn" title="Check-out / Vacate Room" style="background: rgba(245, 158, 11, 0.2); border-color: #f59e0b;">🚪</button>` : ''}
+                            <button onclick="deleteAllocation('${a.code}')" class="icon-btn btn-del" title="Delete Record">🗑️</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function handleAllocationSubmit(e) {
+            e.preventDefault();
+            const code = document.getElementById('allocCode').value;
+            const academic_year = document.getElementById('academicYear').value;
+            const studentId = document.getElementById('studentSelect').value;
+            const roomNo = document.getElementById('roomSelect').value;
+            const bed = document.getElementById('bedNumber').value;
+            const fee = parseFloat(document.getElementById('feeAmount').value);
+            const date = document.getElementById('allocDate').value;
+            const payment_status = document.getElementById('paymentStatus').value;
+
+            const students = getStudents();
+            const student = students.find(s => s.student_id === studentId);
+            const studentName = student ? student.name : 'Resident';
+
+            const rooms = getRooms();
+            const room = rooms.find(r => r.room_no === roomNo);
+            const block = room ? room.block : 'Hostel Wing';
+
+            const allocations = getAllocations();
+            const newAlloc = {
+                id: Date.now(),
+                code,
+                student_id: studentId,
+                student_name: studentName,
+                room_no: roomNo,
+                bed,
+                block,
+                date,
+                academic_year,
+                fee,
+                payment_status,
+                status: 'Allocated'
+            };
+
+            allocations.unshift(newAlloc);
+            saveAllocations(allocations);
+
+            // Increment room occupancy
+            if (room) {
+                room.occupied = (room.occupied || 0) + 1;
+                if (room.occupied >= room.capacity) {
+                    room.status = 'Full';
+                }
+                saveRooms(rooms);
+            }
+
+            alert(`🎉 Room ${roomNo} (${bed}) allocated to ${studentName} (${studentId})! Code: ${code}`);
+            
+            // Redirect to digital ID card
+            window.location.href = `id_card.html?id=${encodeURIComponent(studentId)}`;
+        }
+
+        function vacateAllocation(code, roomNo) {
+            if (confirm(`Confirm checkout/vacating for Allocation ${code} (Room ${roomNo})?`)) {
+                let allocations = getAllocations();
+                const target = allocations.find(a => a.code === code);
+                if (target) {
+                    target.status = 'Vacated';
+                    saveAllocations(allocations);
+                }
+
+                // Decrement room occupancy
+                let rooms = getRooms();
+                const room = rooms.find(r => r.room_no === roomNo);
+                if (room && room.occupied > 0) {
+                    room.occupied -= 1;
+                    if (room.occupied < room.capacity) {
+                        room.status = 'Available';
+                    }
+                    saveRooms(rooms);
+                }
+
+                populateDropdowns();
+                renderAllocationsTable();
+                alert(`✅ Allocation ${code} marked as Vacated. Room ${roomNo} capacity restored.`);
+            }
+        }
+
+        function deleteAllocation(code) {
+            if (confirm("Are you sure you want to delete this allocation record?")) {
+                let allocations = getAllocations();
+                allocations = allocations.filter(a => a.code !== code);
+                saveAllocations(allocations);
+                renderAllocationsTable();
+            }
+        }
+    </script>
+</body>
+</html>

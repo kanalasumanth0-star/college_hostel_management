@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumanth College Hostel Management System - Smart Campus Living</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+    <!-- Anime Ambient Video & Sakura Particles Background -->
+    <div class="bg-video-container">
+        <video class="bg-video" autoplay muted loop playsinline poster="assets/images/anime_hostel_campus.jpg">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-city-traffic-and-flying-cars-at-night-42861-large.mp4" type="video/mp4">
+        </video>
+        <div class="bg-overlay"></div>
+    </div>
+    <canvas id="sakuraCanvas"></canvas>
+
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-wrap">
+            <a href="index.html" class="brand">
+                <span class="brand-icon">🏫</span>
+                <span>Sumanth<span class="gradient-text">Hostel</span></span>
+                <span class="brand-badge">ERP</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="students.html" class="nav-link">Students</a>
+                <a href="rooms.html" class="nav-link">Rooms</a>
+                <a href="allocations.html" class="nav-link">Allocations</a>
+                <a href="id_card.html" class="nav-link">Hostel Pass</a>
+                <a href="allocations.html" class="nav-btn">Allocate Room ➔</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-block">
+        <div class="hero-text-wrap">
+            <div class="hero-pill">
+                <span>🌸</span> Smart Campus Residency & Hostel Management
+            </div>
+            <h1 class="hero-title">
+                Next-Gen Student Living at <span class="gradient-text">Sumanth College</span>
+            </h1>
+            <p class="hero-lead">
+                Welcome to Sumanth College Hostel Management System. Real-time room availability, seamless student bed allocation, digital hostel gate passes, and complete MySQL Workbench integration.
+            </p>
+
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="allocations.html" class="submit-btn-glow" style="text-decoration: none; display: inline-flex; width: auto; padding: 0.9rem 1.8rem;">
+                    <span>🛏️</span> Room Allocations Portal
+                </a>
+                <a href="students.html" class="nav-btn" style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255, 255, 255, 0.15); display: inline-flex; align-items: center; padding: 0.9rem 1.8rem;">
+                    <span>👥</span> Student Directory
+                </a>
+                <a href="rooms.html" class="nav-btn" style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255, 255, 255, 0.15); display: inline-flex; align-items: center; padding: 0.9rem 1.8rem;">
+                    <span>🚪</span> Manage Rooms
+                </a>
+            </div>
+        </div>
+
+        <!-- Hero Visual Showcase -->
+        <div class="hero-visual">
+            <img src="assets/images/anime_hostel_campus.jpg" alt="Sumanth College Smart Hostel Campus" class="hero-img">
+            <div class="floating-badge">
+                <div>
+                    <div style="font-weight: 800; font-size: 1.05rem; color: #fff;">Asahi International Residence</div>
+                    <div style="font-size: 0.82rem; color: var(--primary-cyan);">24/7 Biometric Smart Gates & High-Speed Optical 5G</div>
+                </div>
+                <span class="badge-status badge-active">Live ERP System</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Metrics Strip -->
+    <div class="stats-strip">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" id="statStudents">1,250+</div>
+                <div class="stat-label">Enrolled Residents</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="statRooms">420</div>
+                <div class="stat-label">Hostel Dorm Rooms</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="statOccupancy">92.4%</div>
+                <div class="stat-label">Occupancy Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4.9 ★</div>
+                <div class="stat-label">Student Satisfaction</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hostel Blocks Showcase -->
+    <section class="section-wrap">
+        <div class="section-head">
+            <span class="section-tag">🏢 Campus Infrastructure</span>
+            <h2 class="section-title">Hostel Residential Wings</h2>
+            <p class="section-desc">Ergonomic architecture designed for academic focus, comfort, and recreation.</p>
+        </div>
+
+        <div class="room-grid">
+            <!-- Block 1 -->
+            <div class="room-card">
+                <div class="room-header">
+                    <div>
+                        <div class="room-no">Aryabhata Block</div>
+                        <div class="room-block">Boys' Engineering Residency</div>
+                    </div>
+                    <span class="badge-status badge-available">Open</span>
+                </div>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                    160 Deluxe Double & Triple Sharing AC Suites with personal study carrels.
+                </p>
+                <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; justify-content: space-between;">
+                    <span>Occupancy</span>
+                    <span style="color: #fff; font-weight: 700;">88%</span>
+                </div>
+                <div class="bed-meter">
+                    <div class="bed-meter-fill" style="width: 88%;"></div>
+                </div>
+                <a href="rooms.html" class="link-pill" style="justify-content: center; text-decoration: none; color: #fff;">Explore Rooms ➔</a>
+            </div>
+
+            <!-- Block 2 -->
+            <div class="room-card">
+                <div class="room-header">
+                    <div>
+                        <div class="room-no">Sarojini Block</div>
+                        <div class="room-block">Girls' Honors Residency</div>
+                    </div>
+                    <span class="badge-status badge-available">Open</span>
+                </div>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                    180 Climate-Controlled Suites with biometric entry and dedicated gymnasium.
+                </p>
+                <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; justify-content: space-between;">
+                    <span>Occupancy</span>
+                    <span style="color: #fff; font-weight: 700;">94%</span>
+                </div>
+                <div class="bed-meter">
+                    <div class="bed-meter-fill" style="width: 94%;"></div>
+                </div>
+                <a href="rooms.html" class="link-pill" style="justify-content: center; text-decoration: none; color: #fff;">Explore Rooms ➔</a>
+            </div>
+
+            <!-- Block 3 -->
+            <div class="room-card">
+                <div class="room-header">
+                    <div>
+                        <div class="room-no">Ramanujan Tower</div>
+                        <div class="room-block">Scholars & Postgraduate Studios</div>
+                    </div>
+                    <span class="badge-status badge-paid">Premium</span>
+                </div>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                    80 Single-Occupancy Studio pods with attached balcony and pantry.
+                </p>
+                <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; justify-content: space-between;">
+                    <span>Occupancy</span>
+                    <span style="color: #fff; font-weight: 700;">76%</span>
+                </div>
+                <div class="bed-meter">
+                    <div class="bed-meter-fill" style="width: 76%;"></div>
+                </div>
+                <a href="rooms.html" class="link-pill" style="justify-content: center; text-decoration: none; color: #fff;">Explore Rooms ➔</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MySQL Workbench Integration Highlights -->
+    <section class="section-wrap" style="margin-bottom: 3rem;">
+        <div class="glass-box" style="border: 1px solid rgba(6, 182, 212, 0.3); background: rgba(14, 20, 40, 0.9);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+                <div>
+                    <span class="hero-pill" style="background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.3); color: #67e8f9;">
+                        🐬 MySQL Workbench Ready
+                    </span>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: #fff; margin: 0.5rem 0;">
+                        Direct Database Connectivity
+                    </h3>
+                    <p style="color: var(--text-muted); max-width: 700px; font-size: 0.95rem;">
+                        Compatible with MySQL Workbench 8.0, XAMPP, and WAMP on port <code>3306</code>. Includes relational foreign key integrity between <strong>students</strong>, <strong>rooms</strong>, and <strong>allocations</strong>.
+                    </p>
+                </div>
+                <div>
+                    <a href="schema.sql" download="schema.sql" class="submit-btn-glow" style="text-decoration: none; padding: 0.85rem 1.6rem; font-size: 0.95rem;">
+                        📥 Download MySQL Schema (.sql)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-brand">🏫 Sumanth College Hostel Management System</div>
+        <p class="footer-copy">© 2026 Sumanth College of Technology & Science. Anime Aesthetics & Cloud ERP.</p>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Update live stats from storage
+        document.addEventListener('DOMContentLoaded', () => {
+            const students = getStudents();
+            const rooms = getRooms();
+            const allocations = getAllocations();
+
+            if (document.getElementById('statStudents')) {
+                document.getElementById('statStudents').textContent = (students.length + 1246).toLocaleString();
+            }
+            if (document.getElementById('statRooms')) {
+                document.getElementById('statRooms').textContent = (rooms.length + 414).toLocaleString();
+            }
+        });
+    </script>
+</body>
+</html>

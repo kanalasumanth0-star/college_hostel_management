@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumanth College Hostel - Digital Resident ID Pass</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        @media print {
+            body { background: #fff !important; color: #000 !important; }
+            .navbar, .bg-video-container, #sakuraCanvas, .main-footer, .no-print { display: none !important; }
+            .id-pass-card { border: 2px solid #000; box-shadow: none; background: #fff !important; color: #000 !important; }
+            .id-pass-header { background: #000 !important; color: #fff !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-video-container">
+        <video class="bg-video" autoplay muted loop playsinline poster="assets/images/anime_hostel_campus.jpg">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-city-traffic-and-flying-cars-at-night-42861-large.mp4" type="video/mp4">
+        </video>
+        <div class="bg-overlay"></div>
+    </div>
+    <canvas id="sakuraCanvas"></canvas>
+
+    <header class="navbar no-print">
+        <div class="nav-wrap">
+            <a href="index.html" class="brand">
+                <span class="brand-icon">🏫</span>
+                <span>Sumanth<span class="gradient-text">Hostel</span></span>
+                <span class="brand-badge">ERP</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="students.html" class="nav-link">Students</a>
+                <a href="rooms.html" class="nav-link">Rooms</a>
+                <a href="allocations.html" class="nav-link">Allocations</a>
+                <a href="id_card.html" class="nav-link active">Hostel Pass</a>
+                <a href="allocations.html" class="nav-btn">Allocate Room ➔</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="section-wrap" style="margin-top: 2.5rem;">
+        <div style="text-align: center; margin-bottom: 2rem;" class="no-print">
+            <span class="hero-pill">🪪 Verified Campus Resident Pass</span>
+            <h1 class="section-title">Digital Hostel Resident ID Card</h1>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.4rem;">
+                Official student residency credential for hostel gate biometric entry, dining mess, and library study hubs.
+            </p>
+
+            <div style="margin-top: 1.25rem; display: flex; justify-content: center; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <select id="residentSelect" onchange="loadResidentPass(this.value)" class="form-group-custom" style="padding: 0.65rem 1.25rem; border-radius: 8px; max-width: 320px;">
+                    <!-- Populated dynamically -->
+                </select>
+                <button onclick="window.print()" class="submit-btn-glow" style="padding: 0.75rem 1.75rem;">
+                    🖨️ Print / Save ID Card (PDF)
+                </button>
+            </div>
+        </div>
+
+        <!-- The ID Card Component -->
+        <div class="id-pass-card" id="idCard">
+            <!-- Header -->
+            <div class="id-pass-header">
+                <div>
+                    <h2 style="font-family: var(--font-heading); color: #fff; font-size: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                        🏫 Sumanth College
+                    </h2>
+                    <span style="font-size: 0.75rem; color: #ffe4e6; text-transform: uppercase; letter-spacing: 0.05em;">
+                        Official Hostel Resident Pass · 2026-2027
+                    </span>
+                </div>
+                <div style="background: rgba(0, 0, 0, 0.25); padding: 0.35rem 0.75rem; border-radius: 8px; font-family: var(--font-code); font-weight: 800; font-size: 0.85rem; color: #fff;" id="passBadge">
+                    VERIFIED RESIDENT
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="id-pass-body">
+                <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px dashed rgba(255, 255, 255, 0.1);">
+                    <div style="width: 85px; height: 85px; border-radius: 18px; background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(139, 92, 246, 0.2)); border: 2px solid var(--primary-sakura); display: flex; align-items: center; justify-content: center; font-size: 2.8rem; box-shadow: 0 4px 15px var(--primary-sakura-glow);">
+                        🎓
+                    </div>
+                    <div>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff;" id="cardStudentName">Sumanth Varma</h3>
+                        <div style="color: var(--primary-cyan); font-weight: 700; font-family: var(--font-code); font-size: 0.92rem;" id="cardStudentId">SCH-2026-001</div>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;" id="cardDept">Computer Science & AI · 3rd Year</div>
+                    </div>
+                </div>
+
+                <!-- 2-Col Data Grid -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <div style="font-size: 0.72rem; color: var(--text-faint); text-transform: uppercase;">Hostel Block</div>
+                        <div style="font-weight: 800; color: #fff; font-size: 0.95rem;" id="cardBlock">Aryabhata Block (Boys)</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.72rem; color: var(--text-faint); text-transform: uppercase;">Allocated Room & Bed</div>
+                        <div style="font-weight: 800; color: var(--primary-sakura); font-size: 1.05rem;" id="cardRoomBed">Room A-101 (Bed-1)</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.72rem; color: var(--text-faint); text-transform: uppercase;">Emergency Guardian</div>
+                        <div style="font-weight: 700; color: #e2e8f0; font-size: 0.9rem;" id="cardGuardian">Krishna Varma (9848099887)</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.72rem; color: var(--text-faint); text-transform: uppercase;">Student Phone</div>
+                        <div style="font-weight: 700; color: #e2e8f0; font-size: 0.9rem;" id="cardPhone">9848012345</div>
+                    </div>
+                </div>
+
+                <!-- Barcode & Gate Info -->
+                <div style="text-align: center; padding-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                    <div style="height: 38px; background: repeating-linear-gradient(90deg, #fff 0, #fff 2px, transparent 2px, transparent 5px, #fff 5px, #fff 8px, transparent 8px, transparent 10px); margin: 0.5rem auto; max-width: 260px; opacity: 0.85;"></div>
+                    <span style="font-family: var(--font-code); font-size: 0.78rem; color: var(--text-faint);" id="barcodeVal">
+                        *SCH-HOSTEL-PASS-2026-VERIFIED*
+                    </span>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+                        Gate Curfew: 09:30 PM. For emergency warden assistance: 0866-249999
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer no-print">
+        <div class="footer-brand">🏫 Sumanth College Hostel Management System</div>
+        <p class="footer-copy">© 2026 Sumanth College of Technology & Science.</p>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const queryId = params.get('id');
+
+            const students = getStudents();
+            const select = document.getElementById('residentSelect');
+            select.innerHTML = '';
+
+            students.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.student_id;
+                opt.textContent = `${s.name} (${s.student_id})`;
+                if (queryId && queryId.toUpperCase() === s.student_id.toUpperCase()) {
+                    opt.selected = true;
+                }
+                select.appendChild(opt);
+            });
+
+            loadResidentPass(select.value);
+        });
+
+        function loadResidentPass(studentId) {
+            const students = getStudents();
+            const allocations = getAllocations();
+
+            const student = students.find(s => s.student_id === studentId);
+            if (!student) return;
+
+            const alloc = allocations.find(a => a.student_id === studentId);
+
+            document.getElementById('cardStudentName').textContent = student.name;
+            document.getElementById('cardStudentId').textContent = student.student_id;
+            document.getElementById('cardDept').textContent = `${student.dept} · ${student.year}`;
+            document.getElementById('cardPhone').textContent = student.phone;
+            document.getElementById('cardGuardian').textContent = `${student.guardian} (${student.guardian_phone})`;
+
+            if (alloc) {
+                document.getElementById('cardBlock').textContent = alloc.block;
+                document.getElementById('cardRoomBed').textContent = `Room ${alloc.room_no} (${alloc.bed})`;
+                document.getElementById('barcodeVal').textContent = `*${alloc.code}-${student.student_id}-2026*`;
+            } else {
+                document.getElementById('cardBlock').textContent = 'Unallocated Wing';
+                document.getElementById('cardRoomBed').textContent = 'Pending Room Allocation';
+                document.getElementById('barcodeVal').textContent = `*${student.student_id}-PENDING*`;
+            }
+        }
+    </script>
+</body>
+</html>
